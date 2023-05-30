@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="view_images">View Images</string>
+    <string name="refresh">Refresh</string>
 </resources>

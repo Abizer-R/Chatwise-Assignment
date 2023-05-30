@@ -53,12 +53,17 @@ class ListFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = albumAdapter
         }
+
+        binding.fabRefresh.setOnClickListener {
+            viewModel.getAlbum()
+        }
     }
 
     private fun fetchData() {
 
         viewModel.response.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = View.GONE
+            binding.fabRefresh.visibility = View.GONE
             Log.d(TAG, "fetchData: data = ${it}")
             when(it) {
                 is NetworkResult.Loading -> {
@@ -66,6 +71,7 @@ class ListFragment : Fragment() {
                 }
                 is NetworkResult.Error -> {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    binding.fabRefresh.visibility = View.VISIBLE
                 }
                 is NetworkResult.Success -> {
                     albumAdapter.submitList(it.data)
